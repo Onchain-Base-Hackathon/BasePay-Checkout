@@ -2,6 +2,10 @@ import type { Metadata } from "next";
 import "./globals.css";
 import localFont from "next/font/local";
 import Navbar from "@/components/Navbar";
+import logo from "@/app/assets/logo.png";
+import Link from "next/link";
+import Image from "next/image";
+import Header from "@/components/Header";
 
 export const metadata: Metadata = {
   title: "BasePay",
@@ -42,7 +46,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${generalSans.variable}`}>
       <body className="relative font-generalSans leading-[1.25rem] tracking-tight text-black">
-        <Navbar />
+        <Header/>
         <div className="px-6">{children}</div>
       </body>
     </html>

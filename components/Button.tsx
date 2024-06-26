@@ -8,6 +8,7 @@ interface IProps {
   children: ReactNode;
   hasAddIcon?: boolean;
   type?: "button" | "submit" | "reset" | undefined;
+  onClick?: any;
 }
 
 const Button: FC<IProps> = ({
@@ -15,9 +16,11 @@ const Button: FC<IProps> = ({
   children,
   hasAddIcon = false,
   type = "button",
+  onClick = () => {}
 }: IProps) => {
   return (
     <button
+      onClick={() => onClick()}
       type={type}
       className={twMerge(
         "flex items-center justify-center gap-2 text-balance rounded-full bg-blue px-6 py-3 text-base font-medium text-white",
