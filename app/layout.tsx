@@ -1,11 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import localFont from "next/font/local";
-import Navbar from "@/components/Navbar";
-import logo from "@/app/assets/logo.png";
-import Link from "next/link";
-import Image from "next/image";
 import Header from "@/components/Header";
+import { Web3Modal } from "../context/web3modal";
 
 export const metadata: Metadata = {
   title: "BasePay",
@@ -46,8 +43,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${generalSans.variable}`}>
       <body className="relative font-generalSans leading-[1.25rem] tracking-tight text-black">
-        <Header/>
-        <div className="px-6">{children}</div>
+        <Header />
+        <div className="px-6">
+          {" "}
+          <Web3Modal>{children}</Web3Modal>
+        </div>
       </body>
     </html>
   );
