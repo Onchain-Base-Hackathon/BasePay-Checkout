@@ -20,10 +20,12 @@ export default function Home() {
       <p className="text-center font-medium">BasePay is a groundbreaking payment gateway that revolutionizes the way you handle transactions with cryptocurrencies. It seamlessly connects the tried-and-true world of traditional finance with the dynamic, ever-evolving realm of digital currencies.</p>
 
 
-      <Button className="mt-16 w-96">Connect wallet</Button>
+      <Link href="/hackathon-payment">
+        <Button className="mt-16 w-96">Connect wallet</Button>
+      </Link>
 
       <br />
-      <small className="font-medium w-96 text-center">Don't have a wallet yet? We'll create one for you on BasePay.</small>
+      <small className="font-medium w-96 text-center">Don&apos;t have a wallet yet? We&apos;ll create one for you on BasePay.</small>
       <small className="font-medium w-96 text-center"><a href="" className="text-[#3B72FF] underline font-bold">Click here</a> to create a new one.</small>
     </div>
   );

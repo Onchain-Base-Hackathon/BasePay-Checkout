@@ -23,8 +23,8 @@ const SelectField: FC<IProps> = ({name, id, options, className}) => {
 			twMerge("w-full rounded-[51px] font-medium outline-none border-[#EBEBEB] border py-2 px-2", className)
 			}>
 			{
-				options.map(function(item) {
-					return <option value={item.value}>{item.text}</option>
+				options.map(function(item, index) {
+					return <option value={item.value} key={index}>{item.text}</option>
 				})
 			}
 		</select>

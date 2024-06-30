@@ -63,7 +63,7 @@ export default function HackathonPaymentPage() {
 						<h2 className="text-4xl font-semibold w-full text-center">Connect Wallet</h2>
 						<p className="mt-8 text-center font-medium px-16">Connect your BasePay wallet to complete this payment</p>
 						<Button className="w-full mt-12 mb-12" onClick={goToStageThree}>Connect wallet</Button>						
-						<small className="font-medium w-96 text-center inline-block">Don't have a wallet yet? We'll create one for you on BasePay.</small>
+						<small className="font-medium w-96 text-center inline-block">Don&apos;t have a wallet yet? We&apos;ll create one for you on BasePay.</small>
 						<small className="font-medium w-96 text-center inline-block"><a href="">Click here</a> to create a new one.</small>
 					</div>
 				</div>
@@ -101,7 +101,7 @@ export default function HackathonPaymentPage() {
 						</div>
 						<Button className="w-full mt-7 mb-12" onClick={goToStageFour}>Pay with Base</Button>
 						
-						<small className="font-medium w-96 text-center inline-block">Don't have enough for this transaction?</small>
+						<small className="font-medium w-96 text-center inline-block">Don&apos;t have enough for this transaction?</small>
 						<small className="font-medium w-96 text-center inline-block">Fund wallet with <a href="">Fiat</a> or <a href="">Crypto</a></small>
 					</div>
 				</div>
@@ -115,7 +115,7 @@ export default function HackathonPaymentPage() {
 					<div className="w-[28rem] mt-8 rounded-[40px] pt-[80px] border-[#EBEBEB] border px-4 fade-in-animated">
 						<h2 className="text-4xl font-semibold w-full text-center">Payment Sucessful</h2>
 						<Image src={successfulIcon} height={150} alt="Payment successful" className="mx-auto my-8"></Image>
-						<p className="text-center font-medium px-8">Payment for "2024 Hackathon" has been successfully completed</p>
+						<p className="text-center font-medium px-8">Payment for &quot;2024 Hackathon&quot; has been successfully completed</p>
 						<Button className="w-full mt-12 mb-12" onClick={goToStageThree}>Done</Button>						
 					</div>
 				</div>
