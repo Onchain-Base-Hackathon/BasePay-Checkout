@@ -14,13 +14,13 @@ interface IProps {
 	placeholder?: string,
 	className?: string,
 	readonly?: boolean,
-	value?: string
+	value?: string | number
 }
 
 const InputField: FC<IProps> = ({placeholder = "", className, readonly = false, value= "" }) => {
 
   return (
-    <input type="text" value={value} readOnly={readonly} className={twMerge("rounded-[51px] font-medium py-2 px-4 w-full outline-none bg-[#F7F7F7]", className)} placeholder={placeholder}></input>
+    <input type="text" value={value.toString()} readOnly={readonly} className={twMerge("rounded-[51px] font-medium py-2 px-4 w-full outline-none bg-[#F7F7F7]", className)} placeholder={placeholder}></input>
   );
 };
 

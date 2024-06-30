@@ -8,9 +8,9 @@ import arrow from "@/app/assets/arrow-up.svg";
 import successfulIcon from "@/app/assets/successful_icon.svg";
 import InputField from "@/components/InputField";
 import SelectField from "@/components/SelectField";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useWeb3Modal, useWeb3ModalAccount, useWeb3ModalProvider } from "@web3modal/ethers/react";
-import { BrowserProvider, Contract } from "ethers";
+import { BrowserProvider, Contract, formatUnits } from "ethers";
 
 
 export default function HackathonPaymentPage() {
@@ -20,37 +20,48 @@ export default function HackathonPaymentPage() {
   const selectOptions = [{ text: 'ETH', value: 'ETH' }];
 
   const [stage, setStage] = useState(1);
+  const [balance, setBalance] = useState("");
 
-  // const getBalance = async () => {
-  //   if (!isConnected) {
-  //     alert("Wallet not connected")
-  //   } else {
-  //     const ethersProvider = new BrowserProvider(walletProvider!);
+  const amount = 0.0006;
+  const getBalance = useCallback(async () => {
+    if (!isConnected || !walletProvider || !address)
+      throw Error("User disconnected");
+    const ethersProvider = new BrowserProvider(walletProvider);
+    const balance = await ethersProvider.getBalance(address);
+    let bal = formatUnits(balance, 18);
+    console.log(bal);
+    setBalance(bal);
+  }, [address, walletProvider, isConnected])
 
-  //     const signer = await ethersProvider.getSigner();
 
-  //     const ETHContract = new Contract(address, abi)
-  //   }
-  // }
-
+  
+  const goToStageOne = () => {
+    setStage(1);
+  };
   const goToStageTwo = () => {
+    setStage(2);
+  };
+  const goToStageThree = () => {
     if (isConnected) {
-      let changeWalletIntent = confirm("Would you like to disconnect/change wallet?");
+      let changeWalletIntent = confirm("Wallet already connected.\nWould you like to disconnect/change wallet?");
       if (changeWalletIntent) {
         open()
       } else {
-        setStage(2);
+        setStage(3);
       }
     } else {
       alert("Please connect your wallet");
       open();
     }
   };
-  const goToStageThree = () => {
-    setStage(3);
-  };
   const goToStageFour = () => {
-    setStage(4);
+    if (!isConnected || !walletProvider || !address) {
+      goToStageOne()
+    } else if (Number(balance) < amount) {
+      alert("Insufficient wallet balance")
+    } else {
+      setStage(4);
+    }
   };
   const goPreviousStage = () => {
     setStage(stage - 1);
@@ -108,7 +119,7 @@ export default function HackathonPaymentPage() {
               />
               <InputField
                 readonly={true}
-                value="0.0006"
+                value={amount}
                 placeholder="This is payment for this hackathon"
               />
             </div>
@@ -146,6 +157,11 @@ export default function HackathonPaymentPage() {
         </div>
       );
     case 3:
+      if (!isConnected || !walletProvider || !address) {
+        goToStageOne();
+        return
+      }
+      getBalance();
       return (
         <div className="relative flex w-full flex-col items-center justify-center">
           {backButton()}
@@ -157,11 +173,11 @@ export default function HackathonPaymentPage() {
               </div>
               <div className="mt-4 flex w-full flex-row items-center justify-center gap-2 rounded-full p-1">
                 <Image alt="Placeholder avatar" src={avatar} height={50} />
-                <p className="font-medium">8tw8ehdp..........784xgyj</p>
+                <p className="font-medium overflow-ellipsis w-[12em] overflow-hidden whitespace-nowrap">{address}</p>
                 <Image alt="Placeholder avatar" src={copyIcon} height={20} />
                 <div className="ml-auto flex flex-col gap-1">
                   <small className="text-center text-[#8C8C8C]">Balance:</small>
-                  <small className="text-center font-semibold">0.0006ETH</small>
+                  <small className="text-center font-semibold">ETH {balance}</small>
                 </div>
               </div>
             </div>
@@ -184,8 +200,9 @@ export default function HackathonPaymentPage() {
                 options={selectOptions}
               />
               <InputField
+                className={Number(balance) < amount ? "border-red border-2": ""}
                 readonly={true}
-                value="0.0006"
+                value={amount}
                 placeholder="This is payment for this hackathon"
               />
             </div>
@@ -254,7 +271,7 @@ export default function HackathonPaymentPage() {
               />
               <InputField
                 readonly={true}
-                value="0.0006"
+                value={amount}
                 placeholder="This is payment for this hackathon"
               />
             </div>
