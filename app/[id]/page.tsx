@@ -9,16 +9,42 @@ import successfulIcon from "@/app/assets/successful_icon.svg";
 import InputField from "@/components/InputField";
 import SelectField from "@/components/SelectField";
 import { useState } from "react";
-import { useWeb3Modal } from "@web3modal/ethers/react";
+import { useWeb3Modal, useWeb3ModalAccount, useWeb3ModalProvider } from "@web3modal/ethers/react";
+import { BrowserProvider, Contract } from "ethers";
+
 
 export default function HackathonPaymentPage() {
   const { open } = useWeb3Modal();
-  const selectOptions = [{ text: "ETH", value: "ETH" }];
+  const { address, chainId, isConnected } = useWeb3ModalAccount();
+  const { walletProvider } = useWeb3ModalProvider();
+  const selectOptions = [{ text: 'ETH', value: 'ETH' }];
 
   const [stage, setStage] = useState(1);
 
+  // const getBalance = async () => {
+  //   if (!isConnected) {
+  //     alert("Wallet not connected")
+  //   } else {
+  //     const ethersProvider = new BrowserProvider(walletProvider!);
+
+  //     const signer = await ethersProvider.getSigner();
+
+  //     const ETHContract = new Contract(address, abi)
+  //   }
+  // }
+
   const goToStageTwo = () => {
-    setStage(2);
+    if (isConnected) {
+      let changeWalletIntent = confirm("Would you like to disconnect/change wallet?");
+      if (changeWalletIntent) {
+        open()
+      } else {
+        setStage(2);
+      }
+    } else {
+      alert("Please connect your wallet");
+      open();
+    }
   };
   const goToStageThree = () => {
     setStage(3);
@@ -46,6 +72,14 @@ export default function HackathonPaymentPage() {
         <span className="text-xl font-semibold">Back</span>
       </button>
     );
+  }
+
+  function AlertUser(message: string = '') {
+    return (
+      <div className="w-[80%] absolute left-[10%] rounded-sm h-32 bg-[#dd0000] flex-row justify-center items-center">
+        <p>{message}</p>
+      </div>
+    )
   }
 
   switch (stage) {
@@ -80,9 +114,7 @@ export default function HackathonPaymentPage() {
             </div>
             <Button
               className="mt-7 w-full"
-              onClick={() => {
-                open();
-              }}
+              onClick={goToStageTwo}
             >
               Connect wallet and pay
             </Button>
